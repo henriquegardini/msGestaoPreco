@@ -79,7 +79,7 @@ O projeto **msGestaoPreco** é um microserviço dedicado à gestão de preços. 
 ### Exemplo de Requisição:
 **Cadastrar ou atualizar preco do item**:
 ```bash
-  curl -X POST http://localhost:8080/precos/precificar \
+  curl -X POST http://localhost:8082/precos/precificar \
      -H "Content-Type: application/json" \
      -d '{
            "itemId": 99,
@@ -93,16 +93,16 @@ O projeto **msGestaoPreco** é um microserviço dedicado à gestão de preços. 
 
 **Obter preco Item**:
 ```bash
-curl -X GET http://localhost:8080/precos/obterPreco/99
+curl -X GET http://localhost:8082/precos/obterPreco/99
 ```
 
 **Obter precos**:
 ```bash
-curl -X GET http://localhost:8080/precos/obterPrecos
+curl -X GET http://localhost:8082/precos/obterPrecos
 ```
 
 
 **Deletar preco Item**:
 ```bash
-curl -X DELETE http://localhost:8080/precos/excluirPreco/99
+curl -X DELETE http://localhost:8082/precos/excluirPreco/99
 ```
