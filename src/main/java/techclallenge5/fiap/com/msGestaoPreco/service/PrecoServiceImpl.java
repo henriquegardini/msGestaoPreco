@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import techclallenge5.fiap.com.msGestaoPreco.dto.PrecoDto;
-import techclallenge5.fiap.com.msGestaoPreco.exception.ItemNotFoundException;
+import techclallenge5.fiap.com.msGestaoPreco.exception.ProdutoNotFoundException;
 import techclallenge5.fiap.com.msGestaoPreco.exception.PrecoInvalidoException;
 import techclallenge5.fiap.com.msGestaoPreco.model.Preco;
 import techclallenge5.fiap.com.msGestaoPreco.repository.PrecoRepository;
@@ -26,14 +26,14 @@ public class PrecoServiceImpl implements PrecoService {
     public PrecoDto cadastrarOuAtualizarPreco(PrecoDto precoDto) {
         validarPreco(precoDto.precoNormal(), precoDto.precoPromocional(), precoDto.dataInicioPromocao(), precoDto.dataFimPromocao());
 
-        Optional<Preco> precoOptional = precoRepository.findByItemId(precoDto.itemId());
+        Optional<Preco> precoOptional = precoRepository.findByProdutoId(precoDto.produtoId());
         Preco preco;
 
         if (precoOptional.isPresent()) {
             preco = precoOptional.get();
             atualizarPreco(preco, precoDto.precoNormal(), precoDto.precoPromocional(), precoDto.dataInicioPromocao(), precoDto.dataFimPromocao());
         } else {
-            preco = criarNovoPreco(precoDto.itemId(), precoDto.precoNormal(), precoDto.precoPromocional(), precoDto.dataInicioPromocao(), precoDto.dataFimPromocao());
+            preco = criarNovoPreco(precoDto.produtoId(), precoDto.precoNormal(), precoDto.precoPromocional(), precoDto.dataInicioPromocao(), precoDto.dataFimPromocao());
         }
 
         Preco precoSalvo = precoRepository.save(preco);
@@ -48,10 +48,10 @@ public class PrecoServiceImpl implements PrecoService {
         preco.setDataFimPromocao(dataFimPromocao);
     }
 
-    private Preco criarNovoPreco(Long itemId, BigDecimal precoNormal, BigDecimal precoPromocional,
+    private Preco criarNovoPreco(Long produtoId, BigDecimal precoNormal, BigDecimal precoPromocional,
                                  LocalDate dataInicioPromocao, LocalDate dataFimPromocao) {
         Preco novoPreco = new Preco();
-        novoPreco.setItemId(itemId);
+        novoPreco.setProdutoId(produtoId);
         novoPreco.setPrecoNormal(precoNormal);
         novoPreco.setPrecoPromocional(precoPromocional);
         novoPreco.setDataInicioPromocao(dataInicioPromocao);
@@ -60,10 +60,10 @@ public class PrecoServiceImpl implements PrecoService {
     }
 
     @Override
-    public PrecoDto obterPrecoPorItemId(Long itemId) {
-        Optional<Preco> precoOptional = precoRepository.findByItemId(itemId);
+    public PrecoDto obterPrecoPorProdutoId(Long produtoId) {
+        Optional<Preco> precoOptional = precoRepository.findByProdutoId(produtoId);
         if (precoOptional.isEmpty()) {
-            throw new ItemNotFoundException();
+            throw new ProdutoNotFoundException();
         }
         return toPrecoDto(precoOptional.get());
     }
@@ -72,18 +72,18 @@ public class PrecoServiceImpl implements PrecoService {
     public List<PrecoDto> obterPrecos() {
         List<Preco> precos = precoRepository.findAll();
         return precos.stream()
-                .sorted(Comparator.comparing(Preco::getItemId))
+                .sorted(Comparator.comparing(Preco::getProdutoId))
                 .map(this::toPrecoDto)
                 .toList();
     }
 
     @Override
     @Transactional
-    public void excluirPreco(Long itemId) {
-        if (!precoRepository.existsByItemId(itemId)) {
-            throw new ItemNotFoundException("Preço não encontrado para o item com ID " + itemId);
+    public void excluirPreco(Long produtoId) {
+        if (!precoRepository.existsByProdutoId(produtoId)) {
+            throw new ProdutoNotFoundException("Preço não encontrado para o produto com ID " + produtoId);
         }
-        precoRepository.deleteByItemId(itemId);
+        precoRepository.deleteByProdutoId(produtoId);
     }
 
     public void validarPreco(BigDecimal precoNormal, BigDecimal precoPromocional, LocalDate dataInicio, LocalDate dataFim) {
@@ -103,7 +103,7 @@ public class PrecoServiceImpl implements PrecoService {
 
     public PrecoDto toPrecoDto(Preco preco) {
         return new PrecoDto(
-                preco.getItemId(),
+                preco.getProdutoId(),
                 preco.getPrecoNormal(),
                 preco.getPrecoPromocional(),
                 preco.getDataInicioPromocao(),

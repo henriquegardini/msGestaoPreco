@@ -13,8 +13,8 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
     }
 
-    @ExceptionHandler(ItemNotFoundException.class)
-    public ResponseEntity<String> handleItemNotFoundException(ItemNotFoundException ex) {
+    @ExceptionHandler(ProdutoNotFoundException.class)
+    public ResponseEntity<String> handleProdutoNotFoundException(ProdutoNotFoundException ex) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
     }
 

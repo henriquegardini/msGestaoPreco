@@ -7,7 +7,7 @@ CREATE TABLE Preco
     preco_promocional    DECIMAL(19, 2),
     data_inicio_promocao DATE,
     data_fim_promocao    DATE,
-    item_id              BIGINT         NOT NULL,
+    produto_id              BIGINT         NOT NULL,
     PRIMARY KEY (preco_id)
 );
 

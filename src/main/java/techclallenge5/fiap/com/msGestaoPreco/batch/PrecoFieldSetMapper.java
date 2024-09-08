@@ -35,7 +35,7 @@ public class PrecoFieldSetMapper implements FieldSetMapper<Preco> {
                 ? LocalDate.parse(dataFimStr, DATE_FORMATTER)
                 : null);
 
-        preco.setItemId(fieldSet.readLong("item_id"));
+        preco.setProdutoId(fieldSet.readLong("produto_id"));
         return preco;
     }
 }

@@ -6,7 +6,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import techclallenge5.fiap.com.msGestaoPreco.dto.PrecoDto;
-import techclallenge5.fiap.com.msGestaoPreco.exception.ItemNotFoundException;
+import techclallenge5.fiap.com.msGestaoPreco.exception.ProdutoNotFoundException;
 import techclallenge5.fiap.com.msGestaoPreco.exception.PrecoInvalidoException;
 import techclallenge5.fiap.com.msGestaoPreco.model.Preco;
 import techclallenge5.fiap.com.msGestaoPreco.repository.PrecoRepository;
@@ -42,7 +42,7 @@ class PrecoServiceImplTest {
                 new BigDecimal("90.00")
         );
 
-        when(precoRepository.findByItemId(precoDto.itemId())).thenReturn(Optional.empty());
+        when(precoRepository.findByProdutoId(precoDto.produtoId())).thenReturn(Optional.empty());
         when(precoRepository.save(any(Preco.class))).thenAnswer(invocation -> invocation.getArguments()[0]);
 
         PrecoDto result = precoService.cadastrarOuAtualizarPreco(precoDto);
@@ -63,10 +63,10 @@ class PrecoServiceImplTest {
         );
 
         Preco precoExistente = new Preco();
-        precoExistente.setItemId(precoDto.itemId());
+        precoExistente.setProdutoId(precoDto.produtoId());
         precoExistente.setPrecoNormal(new BigDecimal("110.00"));
 
-        when(precoRepository.findByItemId(precoDto.itemId())).thenReturn(Optional.of(precoExistente));
+        when(precoRepository.findByProdutoId(precoDto.produtoId())).thenReturn(Optional.of(precoExistente));
         when(precoRepository.save(any(Preco.class))).thenAnswer(invocation -> invocation.getArguments()[0]);
 
         PrecoDto result = precoService.cadastrarOuAtualizarPreco(precoDto);
@@ -76,25 +76,25 @@ class PrecoServiceImplTest {
     }
 
     @Test
-    void deveObterPrecoPorItemId() {
+    void deveObterPrecoPorProdutoId() {
         Preco preco = new Preco();
-        preco.setItemId(1L);
+        preco.setProdutoId(1L);
         preco.setPrecoNormal(new BigDecimal("100.00"));
 
-        when(precoRepository.findByItemId(1L)).thenReturn(Optional.of(preco));
+        when(precoRepository.findByProdutoId(1L)).thenReturn(Optional.of(preco));
 
-        PrecoDto result = precoService.obterPrecoPorItemId(1L);
+        PrecoDto result = precoService.obterPrecoPorProdutoId(1L);
 
         assertNotNull(result);
-        assertEquals(1L, result.itemId());
-        verify(precoRepository).findByItemId(1L);
+        assertEquals(1L, result.produtoId());
+        verify(precoRepository).findByProdutoId(1L);
     }
 
     @Test
-    void deveObterPrecoPorItemIdNaoEncontrado() {
-        when(precoRepository.findByItemId(1L)).thenReturn(Optional.empty());
+    void deveObterPrecoPorProdutoIdNaoEncontrado() {
+        when(precoRepository.findByProdutoId(1L)).thenReturn(Optional.empty());
 
-        assertThrows(ItemNotFoundException.class, () -> precoService.obterPrecoPorItemId(1L));
+        assertThrows(ProdutoNotFoundException.class, () -> precoService.obterPrecoPorProdutoId(1L));
     }
 
     @Test
@@ -112,19 +112,19 @@ class PrecoServiceImplTest {
     }
 
     @Test
-    void deveObterPrecoPorItemIdEncontrado() {
+    void deveObterPrecoPorProdutoIdEncontrado() {
         Preco preco = new Preco();
-        preco.setItemId(1L);
+        preco.setProdutoId(1L);
         preco.setPrecoNormal(BigDecimal.valueOf(100));
         preco.setPrecoPromocional(BigDecimal.valueOf(80));
         preco.setDataInicioPromocao(LocalDate.now().minusDays(1));
         preco.setDataFimPromocao(LocalDate.now().plusDays(1));
 
-        when(precoRepository.findByItemId(1L)).thenReturn(Optional.of(preco));
+        when(precoRepository.findByProdutoId(1L)).thenReturn(Optional.of(preco));
 
-        PrecoDto resultado = precoService.obterPrecoPorItemId(1L);
+        PrecoDto resultado = precoService.obterPrecoPorProdutoId(1L);
 
-        assertEquals(1L, resultado.itemId());
+        assertEquals(1L, resultado.produtoId());
         assertEquals(BigDecimal.valueOf(100), resultado.precoNormal());
         assertEquals(BigDecimal.valueOf(80), resultado.precoPromocional());
         assertEquals(LocalDate.now().minusDays(1), resultado.dataInicioPromocao());

@@ -45,10 +45,10 @@ public class BatchConfiguration {
     @Bean
     public ItemReader<Preco> itemReader() {
         return new FlatFileItemReaderBuilder<Preco>()
-                .name("precoItemReader")
+                .name("precoProdutoReader")
                 .resource(new ClassPathResource("preco.csv"))
                 .delimited()
-                .names("preco_id", "preco_normal", "preco_promocional", "data_inicio_promocao", "data_fim_promocao", "item_id")
+                .names("preco_id", "preco_normal", "preco_promocional", "data_inicio_promocao", "data_fim_promocao", "produto_id")
                 .fieldSetMapper(new PrecoFieldSetMapper())
                 .build();
     }
@@ -60,8 +60,8 @@ public class BatchConfiguration {
                 .itemSqlParameterSourceProvider(new BeanPropertyItemSqlParameterSourceProvider<>())
                 .dataSource(dataSource).
                 sql("""
-                        INSERT INTO PRECO (preco_id, preco_normal, preco_promocional, data_inicio_promocao, data_fim_promocao, item_id) VALUES
-                        (:precoId, :precoNormal, :precoPromocional, :dataInicioPromocao, :dataFimPromocao, :itemId);
+                        INSERT INTO PRECO (preco_id, preco_normal, preco_promocional, data_inicio_promocao, data_fim_promocao, produto_id) VALUES
+                        (:precoId, :precoNormal, :precoPromocional, :dataInicioPromocao, :dataFimPromocao, :produtoId);
                         """)
                 .build();
     }

@@ -23,9 +23,9 @@ public class PrecoController {
         return ResponseEntity.ok(preco);
     }
 
-    @GetMapping("/obterPreco/{itemId}")
-    public ResponseEntity<PrecoDto> obterPrecoPorItemId(@PathVariable Long itemId) {
-        PrecoDto preco = precoService.obterPrecoPorItemId(itemId);
+    @GetMapping("/obterPreco/{produtoId}")
+    public ResponseEntity<PrecoDto> obterPrecoPorProdutoId(@PathVariable Long produtoId) {
+        PrecoDto preco = precoService.obterPrecoPorProdutoId(produtoId);
         return ResponseEntity.ok(preco);
     }
 
@@ -35,10 +35,10 @@ public class PrecoController {
         return ResponseEntity.ok(precoDtos);
     }
 
-    @DeleteMapping("/excluirPreco/{itemId}")
-    public ResponseEntity<String> excluirPreco(@PathVariable Long itemId) {
-        precoService.excluirPreco(itemId);
-        return ResponseEntity.ok(String.format("Preço excluído com sucesso para o item com ID %d", itemId));
+    @DeleteMapping("/excluirPreco/{produtoId}")
+    public ResponseEntity<String> excluirPreco(@PathVariable Long produtoId) {
+        precoService.excluirPreco(produtoId);
+        return ResponseEntity.ok(String.format("Preço excluído com sucesso para o produto com ID %d", produtoId));
     }
 
 }

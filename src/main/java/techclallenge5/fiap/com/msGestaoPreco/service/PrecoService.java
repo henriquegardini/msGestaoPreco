@@ -8,10 +8,10 @@ public interface PrecoService {
 
     PrecoDto cadastrarOuAtualizarPreco(PrecoDto precoDto);
 
-    PrecoDto obterPrecoPorItemId(Long itemId);
+    PrecoDto obterPrecoPorProdutoId(Long produtoId);
 
     List<PrecoDto> obterPrecos();
 
-    void excluirPreco(Long itemId);
+    void excluirPreco(Long produtoId);
 
 }

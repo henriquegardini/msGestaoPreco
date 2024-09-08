@@ -9,8 +9,8 @@ import java.util.Optional;
 @Repository
 public interface PrecoRepository extends JpaRepository<Preco, Long> {
 
-    Optional<Preco> findByItemId(Long itemId);
-    boolean existsByItemId(Long itemId);
-    void deleteByItemId(Long itemId);
+    Optional<Preco> findByProdutoId(Long produtoId);
+    boolean existsByProdutoId(Long produtoId);
+    void deleteByProdutoId(Long produtoId);
 
 }

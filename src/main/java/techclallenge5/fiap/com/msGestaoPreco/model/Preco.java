@@ -28,7 +28,7 @@ public class Preco {
     private BigDecimal precoPromocional;
     private LocalDate dataInicioPromocao;
     private LocalDate dataFimPromocao;
-    private Long itemId;
+    private Long produtoId;
 
     public BigDecimal getPrecoAtualUnitario() {
         LocalDate hoje = LocalDate.now();

@@ -4,7 +4,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 
 
-public record PrecoDto(Long itemId,
+public record PrecoDto(Long produtoId,
                        BigDecimal precoNormal,
                        BigDecimal precoPromocional,
                        LocalDate dataInicioPromocao,
