@@ -22,13 +22,12 @@
         <blockhound.version>1.0.3.RELEASE</blockhound.version>
     </properties>
 
-    <!-- Gerenciamento de dependências do Spring Cloud -->
     <dependencyManagement>
         <dependencies>
             <dependency>
                 <groupId>org.springframework.cloud</groupId>
                 <artifactId>spring-cloud-dependencies</artifactId>
-                <version>2022.0.4</version> <!-- Verifique a versão correta do Spring Cloud -->
+                <version>2023.0.2</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -123,6 +122,15 @@
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-function-web</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-security</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-test</artifactId>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 
